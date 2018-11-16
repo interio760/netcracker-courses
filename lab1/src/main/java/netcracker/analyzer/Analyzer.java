@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface Analyzer {
 
-    List<AnalyzerResult> analyze(List<Sorter> fillers, List<Filler> sorters, int size);
+    List<AnalyzerResult> analyzeDifficulty(List<Sorter> sorters, List<Filler> fillers,  int ... sizes);
 
 }

@@ -28,7 +28,7 @@ public class App {
 
         AnalyzerImpl analyzer = new AnalyzerImpl();
 
-        List<AnalyzerResult> resultList = analyzer.analyze(
+        List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(
                 Arrays.asList(
                 arraysSort,
                 bteSort,
@@ -46,7 +46,7 @@ public class App {
                         sortedDesc,
                         trueRandom
                 )
-        , 20000);
+        , 1000, 10000, 20000, 30000);
 
         AnalyzerFormatterImpl analyzerFormatter = new AnalyzerFormatterImpl();
         String report = analyzerFormatter.format(resultList);

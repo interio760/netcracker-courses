@@ -1,10 +1,9 @@
 package netcracker.analyzer.output;
 
 import netcracker.analyzer.AnalyzerResult;
-import netcracker.fillers.Option;
-import netcracker.sorters.HalfDivisionSort;
 
 import java.util.List;
+import java.util.Map;
 
 public class AnalyzerFormatterImpl implements AnalyzerFormatter {
 
@@ -16,20 +15,33 @@ public class AnalyzerFormatterImpl implements AnalyzerFormatter {
             String sorterName = result.getSorter().toString();
 
             if(!lastSorterName.equals(sorterName)){
-                resultBuilder.append("--------------------------\nTesting: ");
-                resultBuilder.append(sorterName);
-                resultBuilder.append("\n\n");
+                resultBuilder
+                        .append("--------------------------\nTesting: ")
+                        .append(sorterName)
+                        .append("\n\n");
             }
             else{
                 resultBuilder.append("\n");
             }
 
-            resultBuilder.append("Filler: ");
-            resultBuilder.append(result.getFiller());
+            resultBuilder
+                    .append("Filler: ")
+                    .append(result.getFiller())
+                    .append("\nElapsed time: ");
 
-            resultBuilder.append("\nElapsed time: ");
-            resultBuilder.append(result.getElapsedTime());
-            resultBuilder.append(" ms.\n");
+            Map<Integer, Long> elapsedTime = result.getElapsedTime();
+
+            for(Integer size : elapsedTime.keySet()){
+                resultBuilder
+                        .append("\nArray size: ")
+                        .append(size)
+                        .append(" | Time: ")
+                        .append(elapsedTime.get(size))
+                        .append(" ms.");
+            }
+
+            resultBuilder.append("\n");
+
             lastSorterName = sorterName;
 
         }

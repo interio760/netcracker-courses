@@ -3,13 +3,15 @@ package netcracker.analyzer;
 import netcracker.fillers.Filler;
 import netcracker.sorters.Sorter;
 
+import java.util.Map;
+
 public class AnalyzerResult {
 
     private final Sorter sorter;
     private final Filler filler;
-    private final long elapsedTime;
+    private final Map<Integer, Long> elapsedTime;
 
-    public AnalyzerResult(Sorter sorter, Filler filler, long elapsedTime) {
+    public AnalyzerResult(Sorter sorter, Filler filler, Map<Integer, Long> elapsedTime) {
         this.sorter = sorter;
         this.filler = filler;
         this.elapsedTime = elapsedTime;
@@ -23,7 +25,7 @@ public class AnalyzerResult {
         return filler;
     }
 
-    public long getElapsedTime() {
+    public Map<Integer, Long> getElapsedTime() {
         return elapsedTime;
     }
 
