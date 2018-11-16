@@ -31,6 +31,10 @@ public class QuickSort implements Sorter {
         if (end > i) quickSort(arr, i, end);
     }
 
+    @Override
+    public String toString() {
+        return "Quicksort";
+    }
 
 
 }

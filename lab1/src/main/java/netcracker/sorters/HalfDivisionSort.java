@@ -59,4 +59,9 @@ public class HalfDivisionSort implements Sorter {
         return arrays;
     }
 
+    @Override
+    public String toString() {
+        return sorter.toString() + " (with half division)";
+    }
+
 }

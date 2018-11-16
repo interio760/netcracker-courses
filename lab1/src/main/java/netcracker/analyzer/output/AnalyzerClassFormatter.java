@@ -6,14 +6,19 @@ import netcracker.sorters.HalfDivisionSort;
 
 import java.util.List;
 
-public class AnalyzerFormatterImpl implements AnalyzerFormatter {
+public class AnalyzerClassFormatter implements AnalyzerFormatter {
 
     @Override
     public String format(List<AnalyzerResult> resultList) {
         StringBuilder resultBuilder = new StringBuilder();
         String lastSorterName = "";
         for(AnalyzerResult result : resultList){
-            String sorterName = result.getSorter().toString();
+            String sorterName = result.getSorter().getClass().getSimpleName();
+
+            if(result.getSorter() instanceof HalfDivisionSort) {
+                HalfDivisionSort sort = (HalfDivisionSort) result.getSorter();
+                sorterName = sorterName + " (" + sort.getSorter().getClass().getSimpleName() +")";
+            }
 
             if(!lastSorterName.equals(sorterName)){
                 resultBuilder.append("--------------------------\nTesting: ");
@@ -25,7 +30,15 @@ public class AnalyzerFormatterImpl implements AnalyzerFormatter {
             }
 
             resultBuilder.append("Filler: ");
-            resultBuilder.append(result.getFiller());
+            resultBuilder.append(result.getFiller().getClass().getSimpleName());
+
+            if(!result.getFiller().getOptions().isEmpty()){
+                for(Option option : result.getFiller().getOptions()){
+                    resultBuilder.append(" (");
+                    resultBuilder.append(option.getClass().getSimpleName());
+                    resultBuilder.append(")");
+                }
+            }
 
             resultBuilder.append("\nElapsed time: ");
             resultBuilder.append(result.getElapsedTime());

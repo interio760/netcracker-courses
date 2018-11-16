@@ -17,4 +17,9 @@ public class BubbleSortBtE implements Sorter{
         }
     }
 
+    @Override
+    public String toString() {
+        return "Bubble sort (bte)";
+    }
+
 }

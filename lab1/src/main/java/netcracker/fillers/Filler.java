@@ -1,19 +1,17 @@
 package netcracker.fillers;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Filler {
 
-    private final List<Option> optionList = new ArrayList<>();
+    private final TreeSet<Option> optionList = new TreeSet<>
+            (Comparator.comparingInt(Option::getPriority));
     protected ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public abstract void fill(int[] arr, int min, int max);
 
     protected void applyOptions(int[] arr){
-        optionList.sort(Comparator.comparingInt(Option::getPriority));
         for(Option opt : optionList){
             opt.execute(arr);
         }
@@ -24,11 +22,23 @@ public abstract class Filler {
         optionList.add(option);
     }
 
+    protected String optionsToString(){
+        if(optionList.isEmpty()) return "";
+        StringBuilder builder = new StringBuilder(" (");
+        for(Option option : optionList){
+            builder.append(option);
+            builder.append(", ");
+        }
+        int length = builder.length();
+        builder.replace(length - 2, length - 1, ")");
+        return builder.toString();
+    }
+
     public void removeOption(Option option){
         optionList.remove(option);
     }
 
-    public List<Option> getOptions(){
+    public Set<Option> getOptions(){
         return optionList;
     }
 

@@ -22,4 +22,9 @@ public class DescFiller extends Filler {
         applyOptions(arr);
     }
 
+    @Override
+    public String toString() {
+        return "Descending order"  + optionsToString();
+    }
+
 }

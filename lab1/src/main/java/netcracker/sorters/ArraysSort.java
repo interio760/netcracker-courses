@@ -10,4 +10,9 @@ public class ArraysSort implements Sorter {
         Arrays.sort(arr, start, end + 1);
     }
 
+    @Override
+    public String toString() {
+        return "Arrays.sort";
+    }
+
 }

@@ -18,7 +18,9 @@ public class App {
         Filler sortedAsc = new AscFiller(quickSort);
 
         Filler sortedAscWithRandom = new AscFiller(quickSort);
+        Filler sortedAscWithRandom1 = new AscFiller(quickSort);
         sortedAscWithRandom.addOption(new LastRandomOption(100, 200));
+        sortedAscWithRandom1.addOption(new LastRandomOption(100, 2000));
 
         Filler sortedDesc = new DescFiller(quickSort);
 
@@ -26,17 +28,16 @@ public class App {
 
         AnalyzerImpl analyzer = new AnalyzerImpl();
 
-        AnalyzeSet analyzeSet = new AnalyzeSet(
-
+        List<AnalyzerResult> resultList = analyzer.analyze(
                 Arrays.asList(
-                        arraysSort,
-                        bteSort,
-                        etbSort,
-                        quickSort,
-                        new HalfDivisionSort(arraysSort),
-                        new HalfDivisionSort(bteSort),
-                        new HalfDivisionSort(etbSort),
-                        new HalfDivisionSort(quickSort)
+                arraysSort,
+                bteSort,
+                etbSort,
+                quickSort,
+                new HalfDivisionSort(arraysSort),
+                new HalfDivisionSort(bteSort),
+                new HalfDivisionSort(etbSort),
+                new HalfDivisionSort(quickSort)
                 ),
 
                 Arrays.asList(
@@ -45,10 +46,8 @@ public class App {
                         sortedDesc,
                         trueRandom
                 )
+        , 20000);
 
-        );
-
-        List<AnalyzerResult> resultList = analyzer.analyze(analyzeSet, 20000);
         AnalyzerFormatterImpl analyzerFormatter = new AnalyzerFormatterImpl();
         String report = analyzerFormatter.format(resultList);
 

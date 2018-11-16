@@ -22,4 +22,9 @@ public class LastRandomOption extends Option {
         return LOW_PRIORITY;
     }
 
+    @Override
+    public String toString() {
+        return "last random in range [" + min + "; " + max + "]";
+    }
+
 }

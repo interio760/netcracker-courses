@@ -17,4 +17,9 @@ public class BubbleSortEtB implements Sorter{
         }
     }
 
+    @Override
+    public String toString() {
+        return "Bubble sort (etb)";
+    }
+
 }

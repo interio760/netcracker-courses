@@ -14,4 +14,9 @@ public class RandomFiller extends Filler {
             arr[i] = random.nextInt(min, max);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Random order" + optionsToString();
+    }
 }
