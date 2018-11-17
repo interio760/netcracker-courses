@@ -32,12 +32,12 @@ public class AnalyzerFormatterImpl implements AnalyzerFormatter {
 
             Map<Integer, Long> elapsedTime = result.getElapsedTime();
 
-            for(Integer size : elapsedTime.keySet()){
+            for(Map.Entry<Integer, Long> entry : elapsedTime.entrySet()){
                 resultBuilder
                         .append("\nArray size: ")
-                        .append(size)
+                        .append(entry.getKey())
                         .append(" | Time: ")
-                        .append(elapsedTime.get(size))
+                        .append(entry.getValue())
                         .append(" ms.");
             }
 

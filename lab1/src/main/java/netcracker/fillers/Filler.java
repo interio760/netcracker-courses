@@ -1,13 +1,11 @@
 package netcracker.fillers;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Filler {
 
     private final TreeSet<Option> optionList = new TreeSet<>
             (Comparator.comparingInt(Option::getPriority));
-    protected ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public abstract void fill(int[] arr, int min, int max);
 

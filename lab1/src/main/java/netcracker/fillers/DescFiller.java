@@ -2,9 +2,12 @@ package netcracker.fillers;
 
 import netcracker.sorters.Sorter;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class DescFiller extends Filler {
 
     private final Sorter sorter;
+    private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public DescFiller(Sorter sorter) {
         this.sorter = sorter;

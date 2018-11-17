@@ -2,13 +2,16 @@ package netcracker.fillers;
 
 import netcracker.sorters.Sorter;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class AscFiller extends Filler {
+
+    private final Sorter sorter;
+    private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     public AscFiller(Sorter sorter) {
         this.sorter = sorter;
     }
-
-    private final Sorter sorter;
 
     @Override
     public void fill(int[] arr, int min, int max) {

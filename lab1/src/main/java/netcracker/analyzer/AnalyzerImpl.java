@@ -35,7 +35,8 @@ public class AnalyzerImpl implements Analyzer {
                 for (int currentSize : sizes) {
                     difficulty.put(
                             currentSize,
-                            doTest(testArrays.get(filler).get(currentSize), sorter));
+                            doTest(testArrays.get(filler).get(currentSize), sorter)
+                    );
                 }
                 results.add(new AnalyzerResult(sorter, filler, difficulty));
             }

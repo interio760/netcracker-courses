@@ -1,6 +1,10 @@
 package netcracker.fillers;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class RandomFiller extends Filler {
+
+    private ThreadLocalRandom random = ThreadLocalRandom.current();
 
     @Override
     public void fill(int[] arr, int min, int max) {

@@ -18,9 +18,7 @@ public class App {
         Filler sortedAsc = new AscFiller(quickSort);
 
         Filler sortedAscWithRandom = new AscFiller(quickSort);
-        Filler sortedAscWithRandom1 = new AscFiller(quickSort);
         sortedAscWithRandom.addOption(new LastRandomOption(100, 200));
-        sortedAscWithRandom1.addOption(new LastRandomOption(100, 2000));
 
         Filler sortedDesc = new DescFiller(quickSort);
 
