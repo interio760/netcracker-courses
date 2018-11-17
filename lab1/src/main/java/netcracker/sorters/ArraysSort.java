@@ -2,6 +2,7 @@ package netcracker.sorters;
 
 import java.util.Arrays;
 
+@Sort
 public class ArraysSort implements Sorter {
 
     @Override

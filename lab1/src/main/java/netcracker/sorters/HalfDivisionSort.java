@@ -2,6 +2,7 @@ package netcracker.sorters;
 
 import java.util.Arrays;
 
+@SortWithDependency
 public class HalfDivisionSort implements Sorter {
 
     private final Sorter sorter;

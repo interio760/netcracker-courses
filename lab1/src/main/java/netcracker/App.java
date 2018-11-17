@@ -28,16 +28,16 @@ public class App {
 
         AnalyzerImpl analyzer = new AnalyzerImpl();
 
-        List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(
+/*        List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(
                 Arrays.asList(
-                arraysSort,
-                bteSort,
-                etbSort,
-                quickSort,
-                new HalfDivisionSort(arraysSort),
-                new HalfDivisionSort(bteSort),
-                new HalfDivisionSort(etbSort),
-                new HalfDivisionSort(quickSort)
+                        arraysSort,
+                        bteSort,
+                        etbSort,
+                        quickSort,
+                        new HalfDivisionSort(arraysSort),
+                        new HalfDivisionSort(bteSort),
+                        new HalfDivisionSort(etbSort),
+                        new HalfDivisionSort(quickSort)
                 ),
 
                 Arrays.asList(
@@ -46,7 +46,16 @@ public class App {
                         sortedDesc,
                         trueRandom
                 )
-        , 1000, 10000, 20000, 30000);
+                , 1000, 10000);*/
+
+        List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(
+                Arrays.asList(
+                        sortedAsc,
+                        sortedAscWithRandom,
+                        sortedDesc,
+                        trueRandom
+                )
+                , 1000, 10000, 20000);
 
         AnalyzerFormatterImpl analyzerFormatter = new AnalyzerFormatterImpl();
         String report = analyzerFormatter.format(resultList);

@@ -1,5 +1,6 @@
 package netcracker.sorters;
 
+@Sort
 public class BubbleSortBtE implements Sorter{
 
     @Override

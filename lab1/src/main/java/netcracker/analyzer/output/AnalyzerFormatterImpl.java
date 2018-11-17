@@ -9,6 +9,7 @@ public class AnalyzerFormatterImpl implements AnalyzerFormatter {
 
     @Override
     public String format(List<AnalyzerResult> resultList) {
+        if(resultList == null || resultList.isEmpty()) return "";
         StringBuilder resultBuilder = new StringBuilder();
         String lastSorterName = "";
         for(AnalyzerResult result : resultList){

@@ -1,5 +1,6 @@
 package netcracker.sorters;
 
+@Sort
 public class QuickSort implements Sorter {
 
     @Override
