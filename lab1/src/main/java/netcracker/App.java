@@ -10,9 +10,9 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        Sorter arraysSort = new ArraysSort();
+       /* Sorter arraysSort = new ArraysSort();
         Sorter bteSort = new BubbleSortBtE();
-        Sorter etbSort = new BubbleSortEtB();
+        Sorter etbSort = new BubbleSortEtB();*/
         Sorter quickSort = new QuickSort();
 
         Filler sortedAsc = new AscFiller(quickSort);
@@ -26,7 +26,7 @@ public class App {
 
         AnalyzerImpl analyzer = new AnalyzerImpl();
 
-/*        List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(
+        /*List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(
                 Arrays.asList(
                         arraysSort,
                         bteSort,
