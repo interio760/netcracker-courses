@@ -20,8 +20,7 @@ public class Fillers {
     @Filler(name = "Desc filler")
     public static void descFill(int[] arr, int min, int max) {
         ascFill(arr, min, max);
-        for(int i = 0; i < arr.length / 2; i++)
-        {
+        for(int i = 0; i < arr.length / 2; i++) {
             int temp = arr[i];
             arr[i] = arr[arr.length - i - 1];
             arr[arr.length - i - 1] = temp;
@@ -30,8 +29,7 @@ public class Fillers {
 
     @Filler(name = "Random filler")
     public static void randomFill(int[] arr, int min, int max){
-        if(arr == null) return;
-        if(min > max) throw new IllegalArgumentException();
+        if(arr == null || arr.length == 0 || min > max) throw new IllegalArgumentException();
         int limit = max - min + 1;
         for (int i = 0; i < arr.length; i++) {
             arr[i] = min + ThreadLocalRandom.current().nextInt(limit);

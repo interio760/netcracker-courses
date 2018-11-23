@@ -12,7 +12,13 @@ public class HalfDivisionSort extends AbstractSorter {
 
     @Override
     public void ascSort(int[] arr, int start, int end) {
-        if (arr == null || arr.length == 0) return;
+        if (arr == null || arr.length == 0 ||
+                start > end || end > arr.length - 1 ||
+                start > arr.length - 1 ||
+                start < 0 || end < 0) throw new IllegalArgumentException();
+
+        if(arr.length == 1) return;
+
         int[][] arrays = divide(arr, arr.length / 2);
         for(int[] array : arrays){
             sorter.sort(array);

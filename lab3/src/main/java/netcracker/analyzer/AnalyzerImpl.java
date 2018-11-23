@@ -14,7 +14,7 @@ public class AnalyzerImpl implements Analyzer {
 
     @Override
     public List<AnalyzerResult> analyzeDifficulty(int... sizes){
-        if(sizes.length == 0) throw new IllegalArgumentException();
+        if(sizes == null || sizes.length == 0) throw new IllegalArgumentException();
 
         Map<String, Map<Integer, int[]>> testSuite = createSuite(sizes);
 
