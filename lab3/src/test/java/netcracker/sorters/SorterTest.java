@@ -12,21 +12,7 @@ public class SorterTest {
 
     @Before
     public void init(){
-        AbstractSorter arraysSort = new ArraysSort();
-        AbstractSorter bteSort = new BubbleSortBtE();
-        AbstractSorter etbSort = new BubbleSortEtB();
-        AbstractSorter quickSort = new QuickSort();
-
-        sorterList = Arrays.asList(
-                arraysSort,
-                bteSort,
-                etbSort,
-                quickSort,
-                new HalfDivisionSort(arraysSort),
-                new HalfDivisionSort(bteSort),
-                new HalfDivisionSort(etbSort),
-                new HalfDivisionSort(quickSort)
-        );
+        sorterList = Sorters.getSortersForTesting();
     }
 
     @Test(timeout = 1000)
@@ -87,7 +73,7 @@ public class SorterTest {
 
     private void testAscSort(AbstractSorter sorter, int[] arr, int start, int end){
         try {
-            sorter.ascSort(arr, start, end);
+            sorter.sort(arr, start, end);
         }catch (IllegalArgumentException e){
             return;
         }
@@ -96,7 +82,7 @@ public class SorterTest {
 
     private void testDescSort(AbstractSorter sorter, int[] arr, int start, int end){
         try {
-            sorter.ascSort(arr, start, end);
+            sorter.sort(arr, start, end);
         }catch (IllegalArgumentException e){
             return;
         }

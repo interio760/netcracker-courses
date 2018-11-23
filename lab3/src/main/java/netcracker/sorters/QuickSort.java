@@ -3,12 +3,7 @@ package netcracker.sorters;
 public class QuickSort extends AbstractSorter {
 
     @Override
-    public void ascSort(int[] arr, int start, int end) {
-        if (arr == null || arr.length == 0 ||
-                start > end || end > arr.length - 1 ||
-                start > arr.length - 1 ||
-                start < 0 || end < 0) throw new IllegalArgumentException();
-
+    protected void ascSort(int[] arr, int start, int end) {
         quickSort(arr, start, end);
     }
 
@@ -39,6 +34,5 @@ public class QuickSort extends AbstractSorter {
     public String toString() {
         return "Quicksort";
     }
-
 
 }
