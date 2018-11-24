@@ -8,7 +8,8 @@ import java.util.List;
 public class App {
     public static void main(String[] args) {
 
-        AnalyzerImpl analyzer = new AnalyzerImpl();
+        AnalyzerImpl analyzer = new AnalyzerImpl(new ReflectionProvider(
+                "netcracker.sorter", "netcracker.filler"));
 
         List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(1000, 10000, 20000);
 

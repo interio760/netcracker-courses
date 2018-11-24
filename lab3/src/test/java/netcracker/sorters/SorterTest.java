@@ -32,8 +32,8 @@ public class SorterTest {
 
                 testDescSort(sorter, arr, 5, -15);
                 testDescSort(sorter, arr, -15, 5);
-                testAscSort(sorter, arr, 1000, 2);
-                testAscSort(sorter, arr, 2, 1000);
+                testDescSort(sorter, arr, 1000, 2);
+                testDescSort(sorter, arr, 2, 1000);
                 testDescSort(sorter, null, 0, -15);
                 testDescSort(sorter, new int[0], 0, -15);
 
@@ -82,7 +82,7 @@ public class SorterTest {
 
     private void testDescSort(AbstractSorter sorter, int[] arr, int start, int end){
         try {
-            sorter.sort(arr, start, end);
+            sorter.descSort(arr, start, end);
         }catch (IllegalArgumentException e){
             return;
         }

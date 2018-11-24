@@ -71,10 +71,12 @@ public class FillerTest {
         }catch (IllegalArgumentException e){
             return;
         }
-        fail("Fillers.ascFill no exception with arguments: arr="
+        fail("" +
+                "Fillers.ascFill no exception with arguments: arr="
                 + (arr == null ? "null" : "[" + arr.length + "]")
                 + " min=" + min + " max=" + max
-                + " | Expected: IllegalArgumentExceptions");
+                + " | Expected: IllegalArgumentException"
+        );
     }
 
     private void testDescFill(int[] arr, int min, int max){
@@ -83,10 +85,12 @@ public class FillerTest {
         }catch (IllegalArgumentException e){
             return;
         }
-        fail("Fillers.descFill no exception with arguments: arr="
+        fail(
+                "Fillers.descFill no exception with arguments: arr="
                 + (arr == null ? "null" : "[" + arr.length + "]")
                 + " min=" + min + " max=" + max
-                + " | Expected: IllegalArgumentExceptions");
+                + " | Expected: IllegalArgumentException"
+        );
     }
 
     private void testAscWithLastRandomFill(int[] arr, int min, int max){
@@ -95,10 +99,12 @@ public class FillerTest {
         }catch (IllegalArgumentException e){
             return;
         }
-        fail("Fillers.ascFillLastRandom no exception with arguments: arr="
+        fail(
+                "Fillers.ascFillLastRandom no exception with arguments: arr="
                 + (arr == null ? "null" : "[" + arr.length + "]")
                 + " min=" + min + " max=" + max
-                + " | Expected: IllegalArgumentExceptions");
+                + " | Expected: IllegalArgumentException"
+        );
     }
 
     private void testRandomFill(int[] arr, int min, int max){
@@ -107,10 +113,12 @@ public class FillerTest {
         }catch (IllegalArgumentException e){
             return;
         }
-        fail("Fillers.randomFill no exception with arguments: arr="
+        fail(
+                "Fillers.randomFill no exception with arguments: arr="
                 + (arr == null ? "null" : "[" + arr.length + "]")
                 + " min=" + min + " max=" + max
-                + " | Expected: IllegalArgumentExceptions");
+                + " | Expected: IllegalArgumentExceptions"
+        );
     }
 
 }

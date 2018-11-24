@@ -1,92 +1,103 @@
 package netcracker.analyzer;
 
-import netcracker.fillers.Filler;
 import netcracker.sorters.AbstractSorter;
-import netcracker.sorters.HalfDivisionSort;
-import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
+/**
+ * Implementation of {@link Analyzer} that uses {@link Provider} to get {@link AbstractSorter} and Fillers lists
+ * <br>
+ *
+ * <pre>{@code
+ * Analyzer analyzer = new AnalyzerImpl(new ReflectionProvider("path_to_sorters_package", "path_to_fillers_package");
+ * List<AnalyzerResult> = analyzer.analyzeDifficulty(10000, 100000);
+ * }</pre>
+ *
+ * @author Zakh
+ * @see Provider
+ * @see AbstractSorter
+ * @see netcracker.fillers.Fillers
+ */
 public class AnalyzerImpl implements Analyzer {
 
+    private final Provider provider;
+
+    /**
+     * Constructor for provider
+     *
+     * @param provider Provider of sorters and fillers
+     */
+    public AnalyzerImpl(Provider provider) {
+        this.provider = provider;
+    }
+
+    /**
+     * Analyzes sorters time usage with different fillers and array sizes
+     * <br>
+     * Sorters and fillers lists a took from {@link Provider}
+     *
+     * @param sizes An array of array sizes for testing
+     * @return List of {@link AnalyzerResult}
+     * @throws IllegalArgumentException Sizes is null or zero
+     */
     @Override
     public List<AnalyzerResult> analyzeDifficulty(int... sizes){
         if(sizes == null || sizes.length == 0) throw new IllegalArgumentException();
 
-        Map<String, Map<Integer, int[]>> testSuite = createSuite(sizes);
+        // map: ( filler name ) - map( test array size - test array )
+        Map<String, Map<Integer, int[]>> testSuite = getSuite(sizes);
 
-        List<AbstractSorter> sorters = findSorters();
+        List<AbstractSorter> sorters = getSorters();
 
         return doAnalyze(sorters, testSuite);
     }
 
-    private Map<String, Map<Integer, int[]>> createSuite(int[] sizes){
-        Reflections reflections = new Reflections("netcracker.fillers", new MethodAnnotationsScanner());
-        Set<Method> fillers = reflections.getMethodsAnnotatedWith(Filler.class);
-        Map<String, Map<Integer, int[]>> testSuite = new HashMap<>();
-
-        for (Method filler : fillers) {
-            Map<Integer, int[]> list = new HashMap<>();
-            for (int currentSize : sizes) {
-                int[] testArray = new int[currentSize];
-                try {
-                    filler.invoke(null, testArray, 0, 100000);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                list.put(currentSize, testArray);
-            }
-            testSuite.put(filler.getAnnotation(Filler.class).name(), list);
-        }
-        return testSuite;
+    /**
+     * Returns provider's sorters
+     *
+     * @return {@link List} of sorters
+     */
+    protected List<AbstractSorter> getSorters(){
+        return provider.getSorters();
     }
 
-    private List<AbstractSorter> findSorters(){
-        Reflections reflections = new Reflections("netcracker.sorters");
-        Set<Class<? extends AbstractSorter>> sortersClasses =
-                reflections.getSubTypesOf(AbstractSorter.class);
-
-        List<AbstractSorter> sorters = new ArrayList<>();
-
-        for(Class<? extends AbstractSorter> clazz : sortersClasses){
-            if(clazz == HalfDivisionSort.class) continue;
-            if( Modifier.isAbstract( clazz.getModifiers() )) continue;
-            try {
-                sorters.add(clazz.newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        List<AbstractSorter> halfDivisionSorters = new ArrayList<>();
-
-        for(AbstractSorter sorter : sorters){
-            halfDivisionSorters.add(new HalfDivisionSort(sorter));
-        }
-
-        sorters.addAll(halfDivisionSorters);
-
-        return sorters;
+    /**
+     * Returns provider's test suite
+     *
+     * @param sizes An array of array sizes for testing
+     * @return {@link Map} of Filler name - Map (Array size - Array)
+     */
+    protected Map<String, Map<Integer, int[]>> getSuite(int ... sizes){
+        return provider.getSuite(sizes);
     }
 
+    /**
+     * Tests different sorters
+     *
+     * @param sorters List of sorters
+     * @param testSuite {@link Map} of Filler name - Map (Array size - Array)
+     * @return {@link List} of {@link AnalyzerResult}
+     */
     private List<AnalyzerResult> doAnalyze(List<AbstractSorter> sorters, Map<String, Map<Integer, int[]>> testSuite) {
         List<AnalyzerResult> results = new ArrayList<>();
+
         if(sorters == null || sorters.isEmpty()
                 || testSuite == null || testSuite.isEmpty()) return results;
 
-        // todo rewrite
         for (AbstractSorter sorter : sorters) {
+
             for(Map.Entry<String, Map<Integer, int[]>> entry : testSuite.entrySet()){
+
                 Map<Integer, Long> elapsedTime = new HashMap<>();
                 String filler = entry.getKey();
                 Map<Integer, int[]> testArrays = entry.getValue();
+
                 for(Map.Entry<Integer, int[]> subject : testArrays.entrySet()){
                     elapsedTime.put(subject.getKey(), doTest(subject.getValue(), sorter));
                 }
-                results.add(new AnalyzerResult(
+
+                results.add(
+                        new AnalyzerResult(
                                 sorter,
                                 filler,
                                 elapsedTime
@@ -98,11 +109,24 @@ public class AnalyzerImpl implements Analyzer {
         return results;
     }
 
+    /**
+     * Tests a sorter for time usage
+     *
+     * @param arr An array for sorting
+     * @param sorter A sorter to test
+     * @return Elapsed time
+     */
     private long doTest(int[] arr, AbstractSorter sorter) {
         int[] substituteArray = Arrays.copyOf(arr, arr.length);
         return getTime(() -> sorter.sort(substituteArray));
     }
 
+    /**
+     * Captures time used to run a function
+     *
+     * @param proc Test procedure
+     * @return Elapsed time
+     */
     private long getTime(Procedure proc) {
         long time = System.currentTimeMillis();
         proc.invoke();

@@ -13,10 +13,13 @@ import java.util.*;
 public class AnalyzerTest {
 
     private List<AbstractSorter> sorterList;
+    private Analyzer analyzer;
 
     @Before
     public void init(){
         sorterList = Sorters.getSortersForTesting();
+        analyzer = new AnalyzerImpl(new ReflectionProvider(
+                "netcracker.sorters", "netcracker.fillers"));
     }
 
     @Test(timeout = 10000)
@@ -30,7 +33,7 @@ public class AnalyzerTest {
         }
 
         int[] sizes = new int[]{1000, 2000};
-        List<AnalyzerResult> results = new AnalyzerImpl().analyzeDifficulty(sizes);
+        List<AnalyzerResult> results = analyzer.analyzeDifficulty(sizes);
 
         for(String filler : fillers){
             for(AbstractSorter sorter : sorterList){
@@ -50,12 +53,12 @@ public class AnalyzerTest {
 
     @Test(expected = IllegalArgumentException.class, timeout = 10000)
     public void analyzeDifficultyIllegalArgumentsTest_0(){
-        new AnalyzerImpl().analyzeDifficulty();
+        analyzer.analyzeDifficulty();
     }
 
     @Test(expected = IllegalArgumentException.class, timeout = 10000)
     public void analyzeDifficultyIllegalArgumentsTest_1(){
-        new AnalyzerImpl().analyzeDifficulty(null);
+        analyzer.analyzeDifficulty(null);
     }
 
     private boolean contains(List<AnalyzerResult> list, String filler, AbstractSorter sorter, int size){

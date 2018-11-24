@@ -5,8 +5,20 @@ import netcracker.analyzer.AnalyzerResult;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * {@link AnalyzerFormatter} implementation
+ *
+ * @author Zakh
+ * @see AnalyzerResult
+ */
 public class AnalyzerFormatterImpl implements AnalyzerFormatter {
 
+    /**
+     * Formats output
+     *
+     * @param resultList A list of {@link AnalyzerResult}
+     * @return String output
+     */
     @Override
     public String format(List<AnalyzerResult> resultList) {
         if(resultList == null || resultList.isEmpty()) return "";
