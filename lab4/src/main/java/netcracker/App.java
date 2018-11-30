@@ -13,7 +13,7 @@ public class App {
         AnalyzerImpl analyzer = new AnalyzerImpl(new ReflectionProvider(
                 "netcracker.sorter", "netcracker.filler"));
 
-        List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(1000, 5000, 10000, 20000);
+        List<AnalyzerResult> resultList = analyzer.analyzeDifficulty(10000, 20000, 30000, 40000, 50000);
 
         AnalyzerFormatterImpl analyzerFormatter = new AnalyzerFormatterImpl();
         String report = analyzerFormatter.format(resultList);

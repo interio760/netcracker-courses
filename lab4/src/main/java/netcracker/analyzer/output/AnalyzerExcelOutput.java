@@ -4,10 +4,13 @@ import netcracker.analyzer.AnalyzerResult;
 import netcracker.sorters.AbstractSorter;
 import netcracker.sorters.HalfDivisionSort;
 import netcracker.sorters.Sorter;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.charts.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.*;
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTBoolean;
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTLineSer;
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTPlotArea;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,10 +29,11 @@ public class AnalyzerExcelOutput {
             XSSFSheet sheet = workbook.createSheet(entry.getKey());
 
             boolean flagNew = true;
+            int rowIndex = 0;
+            int sorterColumn = 0;
             for(Map.Entry<AbstractSorter, AnalyzerResult> sorterResultEntry : entry.getValue().entrySet()){
 
                 if(flagNew){
-                    int rowIndex = 0;
                     sheet.createRow(0).createCell(0).setCellValue("Size");
                     for(Integer size : sorterResultEntry.getValue().getElapsedTime().keySet()){
                         XSSFRow row = sheet.createRow(++rowIndex);
@@ -40,17 +44,55 @@ public class AnalyzerExcelOutput {
 
                 AbstractSorter sorter = sorterResultEntry.getKey();
                 AnalyzerResult result = sorterResultEntry.getValue();
-                int sorterColumn = createSorterColumn(sheet, sorter);
+                sorterColumn = createSorterColumn(sheet, sorter);
 
                 for(Map.Entry<Integer, Long> sizeResult : result.getElapsedTime().entrySet()){
                     XSSFRow row = sheet.getRow(findSizeIndex(sheet, sizeResult.getKey()));
                     row.createCell(sorterColumn).setCellValue(sizeResult.getValue());
                 }
-
             }
-
+            createLineChart(sheet, rowIndex + 1, sorterColumn + 1);
         }
+
+
         workbook.write(new FileOutputStream(excelFile));
+
+    }
+
+    private void createLineChart(XSSFSheet dataSheet, int rows, int columns){
+
+        Drawing drawing = dataSheet.createDrawingPatriarch();
+        ClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, 1, rows + 3, 8, 25);
+
+        Chart chart = drawing.createChart(anchor);
+        ChartLegend legend = chart.getOrCreateLegend();
+        legend.setPosition(LegendPosition.RIGHT);
+
+        LineChartData data = chart.getChartDataFactory().createLineChartData();
+
+        ChartAxis bottomAxis = chart.getChartAxisFactory().createCategoryAxis(AxisPosition.BOTTOM);
+        ValueAxis leftAxis = chart.getChartAxisFactory().createValueAxis(AxisPosition.LEFT);
+        leftAxis.setCrosses(AxisCrosses.AUTO_ZERO);
+
+        ChartDataSource<Number> xs = DataSources.fromNumericCellRange(dataSheet, new CellRangeAddress(0, rows - 1, 0, 0));
+
+        for(int i = 1; i < columns; i++){
+            ChartDataSource<Number> ys1 = DataSources.fromNumericCellRange(dataSheet, new CellRangeAddress(0, rows - 1, i, i));
+            LineChartSeries series1 = data.addSeries(xs, ys1);
+            series1.setTitle(dataSheet.getRow(0).getCell(i).getStringCellValue());
+        }
+
+        chart.plot(data, bottomAxis, leftAxis);
+
+        XSSFChart xssfChart = (XSSFChart) chart;
+        CTPlotArea plotArea = xssfChart.getCTChart().getPlotArea();
+        plotArea.getLineChartArray()[0].getSmooth();
+        CTBoolean ctBool = CTBoolean.Factory.newInstance();
+        ctBool.setVal(false);
+        plotArea.getLineChartArray()[0].setSmooth(ctBool);
+        for (CTLineSer ser : plotArea.getLineChartArray()[0].getSerArray()) {
+            ser.setSmooth(ctBool);
+        }
 
     }
 
